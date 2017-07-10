@@ -1,0 +1,2 @@
+use SimaFlex_MP_Stock_DB;
+select  count(*)   From    ArticlesSet, Sous_CatégoriesSet, CommandesSet, CatégoriesSet, FournisseursSet  Where    ArticlesSet.Catégories_IdCatégories = CatégoriesSet.IdCatégories  AND  CatégoriesSet.IdCatégories = 3  AND  CatégoriesSet.IdCatégories = Sous_CatégoriesSet.Catégories_IdCatégories AND  ArticlesSet.Commandes_IdCommande = CommandesSet.IdCommande AND  CommandesSet.Fournisseurs_IdFournisseurs = FournisseursSet.IdFournisseurs  AND ArticlesSet.Sous_Catégories_IdSous_Catégories=Sous_CatégoriesSet.IdSous_Catégories;

@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelStock.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelStockStoreContainer">
+    <EntitySet Name="ArticlesSet" EntityType="ModelStock.Store.ArticlesSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CatégoriesSet" EntityType="ModelStock.Store.CatégoriesSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Sous_CatégoriesSet" EntityType="ModelStock.Store.Sous_CatégoriesSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CommandesSet" EntityType="ModelStock.Store.CommandesSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FournisseursSet" EntityType="ModelStock.Store.FournisseursSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="CatégoriesSous_Catégories" Association="ModelStock.Store.CatégoriesSous_Catégories">
+      <End Role="Catégories" EntitySet="CatégoriesSet" />
+      <End Role="Sous_Catégories" EntitySet="Sous_CatégoriesSet" />
+    </AssociationSet>
+    <AssociationSet Name="CatégoriesArticles" Association="ModelStock.Store.CatégoriesArticles">
+      <End Role="Catégories" EntitySet="CatégoriesSet" />
+      <End Role="Articles" EntitySet="ArticlesSet" />
+    </AssociationSet>
+    <AssociationSet Name="FournisseursCommandes" Association="ModelStock.Store.FournisseursCommandes">
+      <End Role="Fournisseurs" EntitySet="FournisseursSet" />
+      <End Role="Commandes" EntitySet="CommandesSet" />
+    </AssociationSet>
+    <AssociationSet Name="ArticlesCommandes" Association="ModelStock.Store.ArticlesCommandes">
+      <End Role="Articles" EntitySet="ArticlesSet" />
+      <End Role="Commandes" EntitySet="CommandesSet" />
+    </AssociationSet>
+    <AssociationSet Name="CatégoriesFournisseurs" Association="ModelStock.Store.CatégoriesFournisseurs">
+      <End Role="Catégories" EntitySet="CatégoriesSet" />
+      <End Role="Fournisseurs" EntitySet="FournisseursSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ArticlesSet">
+    <Key>
+      <PropertyRef Name="IdArticles" />
+    </Key>
+    <Property Name="IdArticles" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Référence" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Couleur" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Catégories_IdCatégories" Type="int" Nullable="false" />
+    <Property Name="Commandes_IdCommande" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CatégoriesSet">
+    <Key>
+      <PropertyRef Name="IdCatégories" />
+    </Key>
+    <Property Name="IdCatégories" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type_Catégorie" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sous_CatégoriesSet">
+    <Key>
+      <PropertyRef Name="IdSous_Catégories" />
+    </Key>
+    <Property Name="IdSous_Catégories" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type_Sous_Catégorie" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Catégories_IdCatégories" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CommandesSet">
+    <Key>
+      <PropertyRef Name="IdCommande" />
+    </Key>
+    <Property Name="IdCommande" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date_Lancement" Type="datetime" Nullable="false" />
+    <Property Name="Date_PrévuDeLivraison" Type="datetime" Nullable="false" />
+    <Property Name="Quantité_Commandée" Type="int" Nullable="false" />
+    <Property Name="Fournisseurs_IdFournisseurs" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FournisseursSet">
+    <Key>
+      <PropertyRef Name="IdFournisseurs" />
+    </Key>
+    <Property Name="IdFournisseurs" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Adresse" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Tél_Pérsonnel" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Tél_Travail" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Tél_fixe" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Catégories_IdCatégories" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="CatégoriesSous_Catégories">
+    <End Role="Catégories" Type="ModelStock.Store.CatégoriesSet" Multiplicity="1" />
+    <End Role="Sous_Catégories" Type="ModelStock.Store.Sous_CatégoriesSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Catégories">
+        <PropertyRef Name="IdCatégories" />
+      </Principal>
+      <Dependent Role="Sous_Catégories">
+        <PropertyRef Name="Catégories_IdCatégories" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CatégoriesArticles">
+    <End Role="Catégories" Type="ModelStock.Store.CatégoriesSet" Multiplicity="1" />
+    <End Role="Articles" Type="ModelStock.Store.ArticlesSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Catégories">
+        <PropertyRef Name="IdCatégories" />
+      </Principal>
+      <Dependent Role="Articles">
+        <PropertyRef Name="Catégories_IdCatégories" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FournisseursCommandes">
+    <End Role="Fournisseurs" Type="ModelStock.Store.FournisseursSet" Multiplicity="1" />
+    <End Role="Commandes" Type="ModelStock.Store.CommandesSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Fournisseurs">
+        <PropertyRef Name="IdFournisseurs" />
+      </Principal>
+      <Dependent Role="Commandes">
+        <PropertyRef Name="Fournisseurs_IdFournisseurs" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ArticlesCommandes">
+    <End Role="Articles" Type="ModelStock.Store.ArticlesSet" Multiplicity="*" />
+    <End Role="Commandes" Type="ModelStock.Store.CommandesSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Commandes">
+        <PropertyRef Name="IdCommande" />
+      </Principal>
+      <Dependent Role="Articles">
+        <PropertyRef Name="Commandes_IdCommande" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CatégoriesFournisseurs">
+    <End Role="Catégories" Type="ModelStock.Store.CatégoriesSet" Multiplicity="1" />
+    <End Role="Fournisseurs" Type="ModelStock.Store.FournisseursSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Catégories">
+        <PropertyRef Name="IdCatégories" />
+      </Principal>
+      <Dependent Role="Fournisseurs">
+        <PropertyRef Name="Catégories_IdCatégories" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelStock" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ModelStockContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ArticlesSet" EntityType="ModelStock.Articles" />
+          <EntitySet Name="CatégoriesSet" EntityType="ModelStock.Catégories" />
+          <EntitySet Name="Sous_CatégoriesSet" EntityType="ModelStock.Sous_Catégories" />
+          <EntitySet Name="CommandesSet" EntityType="ModelStock.Commandes" />
+          <EntitySet Name="FournisseursSet" EntityType="ModelStock.Fournisseurs" />
+          <AssociationSet Name="CatégoriesSous_Catégories" Association="ModelStock.CatégoriesSous_Catégories">
+            <End Role="Catégories" EntitySet="CatégoriesSet" />
+            <End Role="Sous_Catégories" EntitySet="Sous_CatégoriesSet" />
+          </AssociationSet>
+          <AssociationSet Name="CatégoriesArticles" Association="ModelStock.CatégoriesArticles">
+            <End Role="Catégories" EntitySet="CatégoriesSet" />
+            <End Role="Articles" EntitySet="ArticlesSet" />
+          </AssociationSet>
+          <AssociationSet Name="FournisseursCommandes" Association="ModelStock.FournisseursCommandes">
+            <End Role="Fournisseurs" EntitySet="FournisseursSet" />
+            <End Role="Commandes" EntitySet="CommandesSet" />
+          </AssociationSet>
+          <AssociationSet Name="ArticlesCommandes" Association="ModelStock.ArticlesCommandes">
+            <End Role="Articles" EntitySet="ArticlesSet" />
+            <End Role="Commandes" EntitySet="CommandesSet" />
+          </AssociationSet>
+          <AssociationSet Name="CatégoriesFournisseurs" Association="ModelStock.CatégoriesFournisseurs">
+            <End Role="Catégories" EntitySet="CatégoriesSet" />
+            <End Role="Fournisseurs" EntitySet="FournisseursSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Articles">
+          <Key>
+            <PropertyRef Name="IdArticles" />
+          </Key>
+          <Property Name="IdArticles" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Référence" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Catégories" Relationship="ModelStock.CatégoriesArticles" FromRole="Articles" ToRole="Catégories" />
+          <NavigationProperty Name="Commandes" Relationship="ModelStock.ArticlesCommandes" FromRole="Articles" ToRole="Commandes" />
+          <Property Name="Couleur" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Catégories">
+          <Key>
+            <PropertyRef Name="IdCatégories" />
+          </Key>
+          <Property Name="IdCatégories" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type_Catégorie" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Sous_Catégories" Relationship="ModelStock.CatégoriesSous_Catégories" FromRole="Catégories" ToRole="Sous_Catégories" />
+          <NavigationProperty Name="Articles" Relationship="ModelStock.CatégoriesArticles" FromRole="Catégories" ToRole="Articles" />
+          <NavigationProperty Name="Fournisseurs" Relationship="ModelStock.CatégoriesFournisseurs" FromRole="Catégories" ToRole="Fournisseurs" />
+        </EntityType>
+        <EntityType Name="Sous_Catégories">
+          <Key>
+            <PropertyRef Name="IdSous_Catégories" />
+          </Key>
+          <Property Name="IdSous_Catégories" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type_Sous_Catégorie" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Catégories" Relationship="ModelStock.CatégoriesSous_Catégories" FromRole="Sous_Catégories" ToRole="Catégories" />
+        </EntityType>
+        <EntityType Name="Commandes">
+          <Key>
+            <PropertyRef Name="IdCommande" />
+          </Key>
+          <Property Name="IdCommande" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date_Lancement" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Date_PrévuDeLivraison" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Quantité_Commandée" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Fournisseurs" Relationship="ModelStock.FournisseursCommandes" FromRole="Commandes" ToRole="Fournisseurs" />
+          <NavigationProperty Name="Articles" Relationship="ModelStock.ArticlesCommandes" FromRole="Commandes" ToRole="Articles" />
+        </EntityType>
+        <EntityType Name="Fournisseurs">
+          <Key>
+            <PropertyRef Name="IdFournisseurs" />
+          </Key>
+          <Property Name="IdFournisseurs" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Adresse" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Tél_Pérsonnel" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Tél_Travail" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Tél_fixe" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Commandes" Relationship="ModelStock.FournisseursCommandes" FromRole="Fournisseurs" ToRole="Commandes" />
+          <NavigationProperty Name="Catégories" Relationship="ModelStock.CatégoriesFournisseurs" FromRole="Fournisseurs" ToRole="Catégories" />
+          </EntityType>
+        <Association Name="CatégoriesSous_Catégories">
+          <End Type="ModelStock.Catégories" Role="Catégories" Multiplicity="1" />
+          <End Type="ModelStock.Sous_Catégories" Role="Sous_Catégories" Multiplicity="*" />
+        </Association>
+        <Association Name="CatégoriesArticles">
+          <End Type="ModelStock.Catégories" Role="Catégories" Multiplicity="1" />
+          <End Type="ModelStock.Articles" Role="Articles" Multiplicity="*" />
+        </Association>
+        <Association Name="FournisseursCommandes">
+          <End Type="ModelStock.Fournisseurs" Role="Fournisseurs" Multiplicity="1" />
+          <End Type="ModelStock.Commandes" Role="Commandes" Multiplicity="*" />
+        </Association>
+        <Association Name="ArticlesCommandes">
+          <End Type="ModelStock.Articles" Role="Articles" Multiplicity="*" />
+          <End Type="ModelStock.Commandes" Role="Commandes" Multiplicity="1" />
+        </Association>
+        <Association Name="CatégoriesFournisseurs">
+          <End Type="ModelStock.Catégories" Role="Catégories" Multiplicity="1" />
+          <End Type="ModelStock.Fournisseurs" Role="Fournisseurs" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStockStoreContainer" CdmEntityContainer="ModelStockContainer">
+    <EntitySetMapping Name="ArticlesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStock.Articles)">
+        <MappingFragment StoreEntitySet="ArticlesSet">
+          <ScalarProperty Name="IdArticles" ColumnName="IdArticles" />
+          <ScalarProperty Name="Référence" ColumnName="Référence" />
+          <ScalarProperty Name="Couleur" ColumnName="Couleur" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CatégoriesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStock.Catégories)">
+        <MappingFragment StoreEntitySet="CatégoriesSet">
+          <ScalarProperty Name="IdCatégories" ColumnName="IdCatégories" />
+          <ScalarProperty Name="Type_Catégorie" ColumnName="Type_Catégorie" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sous_CatégoriesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStock.Sous_Catégories)">
+        <MappingFragment StoreEntitySet="Sous_CatégoriesSet">
+          <ScalarProperty Name="IdSous_Catégories" ColumnName="IdSous_Catégories" />
+          <ScalarProperty Name="Type_Sous_Catégorie" ColumnName="Type_Sous_Catégorie" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CommandesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStock.Commandes)">
+        <MappingFragment StoreEntitySet="CommandesSet">
+          <ScalarProperty Name="IdCommande" ColumnName="IdCommande" />
+          <ScalarProperty Name="Date_Lancement" ColumnName="Date_Lancement" />
+          <ScalarProperty Name="Date_PrévuDeLivraison" ColumnName="Date_PrévuDeLivraison" />
+          <ScalarProperty Name="Quantité_Commandée" ColumnName="Quantité_Commandée" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FournisseursSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStock.Fournisseurs)">
+        <MappingFragment StoreEntitySet="FournisseursSet">
+          <ScalarProperty Name="IdFournisseurs" ColumnName="IdFournisseurs" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+          <ScalarProperty Name="Tél_Pérsonnel" ColumnName="Tél_Pérsonnel" />
+          <ScalarProperty Name="Tél_Travail" ColumnName="Tél_Travail" />
+          <ScalarProperty Name="Tél_fixe" ColumnName="Tél_fixe" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="CatégoriesSous_Catégories" TypeName="ModelStock.CatégoriesSous_Catégories" StoreEntitySet="Sous_CatégoriesSet">
+      <EndProperty Name="Catégories">
+        <ScalarProperty Name="IdCatégories" ColumnName="Catégories_IdCatégories" />
+      </EndProperty>
+      <EndProperty Name="Sous_Catégories">
+        <ScalarProperty Name="IdSous_Catégories" ColumnName="IdSous_Catégories" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CatégoriesArticles" TypeName="ModelStock.CatégoriesArticles" StoreEntitySet="ArticlesSet">
+      <EndProperty Name="Catégories">
+        <ScalarProperty Name="IdCatégories" ColumnName="Catégories_IdCatégories" />
+      </EndProperty>
+      <EndProperty Name="Articles">
+        <ScalarProperty Name="IdArticles" ColumnName="IdArticles" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FournisseursCommandes" TypeName="ModelStock.FournisseursCommandes" StoreEntitySet="CommandesSet">
+      <EndProperty Name="Fournisseurs">
+        <ScalarProperty Name="IdFournisseurs" ColumnName="Fournisseurs_IdFournisseurs" />
+      </EndProperty>
+      <EndProperty Name="Commandes">
+        <ScalarProperty Name="IdCommande" ColumnName="IdCommande" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ArticlesCommandes" TypeName="ModelStock.ArticlesCommandes" StoreEntitySet="ArticlesSet">
+      <EndProperty Name="Commandes">
+        <ScalarProperty Name="IdCommande" ColumnName="Commandes_IdCommande" />
+      </EndProperty>
+      <EndProperty Name="Articles">
+        <ScalarProperty Name="IdArticles" ColumnName="IdArticles" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CatégoriesFournisseurs" TypeName="ModelStock.CatégoriesFournisseurs" StoreEntitySet="FournisseursSet">
+      <EndProperty Name="Catégories">
+        <ScalarProperty Name="IdCatégories" ColumnName="Catégories_IdCatégories" />
+      </EndProperty>
+      <EndProperty Name="Fournisseurs">
+        <ScalarProperty Name="IdFournisseurs" ColumnName="IdFournisseurs" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

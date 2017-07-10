@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStockStoreContainer" CdmEntityContainer="ModelStockContainer">
+    <EntitySetMapping Name="ArticlesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStock.Articles)">
+        <MappingFragment StoreEntitySet="ArticlesSet">
+          <ScalarProperty Name="IdArticles" ColumnName="IdArticles" />
+          <ScalarProperty Name="Référence" ColumnName="Référence" />
+          <ScalarProperty Name="Couleur" ColumnName="Couleur" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CatégoriesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStock.Catégories)">
+        <MappingFragment StoreEntitySet="CatégoriesSet">
+          <ScalarProperty Name="IdCatégories" ColumnName="IdCatégories" />
+          <ScalarProperty Name="Type_Catégorie" ColumnName="Type_Catégorie" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sous_CatégoriesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStock.Sous_Catégories)">
+        <MappingFragment StoreEntitySet="Sous_CatégoriesSet">
+          <ScalarProperty Name="IdSous_Catégories" ColumnName="IdSous_Catégories" />
+          <ScalarProperty Name="Type_Sous_Catégorie" ColumnName="Type_Sous_Catégorie" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CommandesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStock.Commandes)">
+        <MappingFragment StoreEntitySet="CommandesSet">
+          <ScalarProperty Name="IdCommande" ColumnName="IdCommande" />
+          <ScalarProperty Name="Date_Lancement" ColumnName="Date_Lancement" />
+          <ScalarProperty Name="Date_PrévuDeLivraison" ColumnName="Date_PrévuDeLivraison" />
+          <ScalarProperty Name="Quantité_Commandée" ColumnName="Quantité_Commandée" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FournisseursSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStock.Fournisseurs)">
+        <MappingFragment StoreEntitySet="FournisseursSet">
+          <ScalarProperty Name="IdFournisseurs" ColumnName="IdFournisseurs" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+          <ScalarProperty Name="Tél_Pérsonnel" ColumnName="Tél_Pérsonnel" />
+          <ScalarProperty Name="Tél_Travail" ColumnName="Tél_Travail" />
+          <ScalarProperty Name="Tél_fixe" ColumnName="Tél_fixe" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="CatégoriesSous_Catégories" TypeName="ModelStock.CatégoriesSous_Catégories" StoreEntitySet="Sous_CatégoriesSet">
+      <EndProperty Name="Catégories">
+        <ScalarProperty Name="IdCatégories" ColumnName="Catégories_IdCatégories" />
+      </EndProperty>
+      <EndProperty Name="Sous_Catégories">
+        <ScalarProperty Name="IdSous_Catégories" ColumnName="IdSous_Catégories" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CatégoriesArticles" TypeName="ModelStock.CatégoriesArticles" StoreEntitySet="ArticlesSet">
+      <EndProperty Name="Catégories">
+        <ScalarProperty Name="IdCatégories" ColumnName="Catégories_IdCatégories" />
+      </EndProperty>
+      <EndProperty Name="Articles">
+        <ScalarProperty Name="IdArticles" ColumnName="IdArticles" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FournisseursCommandes" TypeName="ModelStock.FournisseursCommandes" StoreEntitySet="CommandesSet">
+      <EndProperty Name="Fournisseurs">
+        <ScalarProperty Name="IdFournisseurs" ColumnName="Fournisseurs_IdFournisseurs" />
+      </EndProperty>
+      <EndProperty Name="Commandes">
+        <ScalarProperty Name="IdCommande" ColumnName="IdCommande" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ArticlesCommandes" TypeName="ModelStock.ArticlesCommandes" StoreEntitySet="ArticlesSet">
+      <EndProperty Name="Commandes">
+        <ScalarProperty Name="IdCommande" ColumnName="Commandes_IdCommande" />
+      </EndProperty>
+      <EndProperty Name="Articles">
+        <ScalarProperty Name="IdArticles" ColumnName="IdArticles" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CatégoriesFournisseurs" TypeName="ModelStock.CatégoriesFournisseurs" StoreEntitySet="FournisseursSet">
+      <EndProperty Name="Catégories">
+        <ScalarProperty Name="IdCatégories" ColumnName="Catégories_IdCatégories" />
+      </EndProperty>
+      <EndProperty Name="Fournisseurs">
+        <ScalarProperty Name="IdFournisseurs" ColumnName="IdFournisseurs" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

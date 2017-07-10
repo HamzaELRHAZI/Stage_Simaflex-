@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelStock" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="ModelStockContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ArticlesSet" EntityType="ModelStock.Articles" />
+    <EntitySet Name="CatégoriesSet" EntityType="ModelStock.Catégories" />
+    <EntitySet Name="Sous_CatégoriesSet" EntityType="ModelStock.Sous_Catégories" />
+    <EntitySet Name="CommandesSet" EntityType="ModelStock.Commandes" />
+    <EntitySet Name="FournisseursSet" EntityType="ModelStock.Fournisseurs" />
+    <AssociationSet Name="CatégoriesSous_Catégories" Association="ModelStock.CatégoriesSous_Catégories">
+      <End Role="Catégories" EntitySet="CatégoriesSet" />
+      <End Role="Sous_Catégories" EntitySet="Sous_CatégoriesSet" />
+    </AssociationSet>
+    <AssociationSet Name="CatégoriesArticles" Association="ModelStock.CatégoriesArticles">
+      <End Role="Catégories" EntitySet="CatégoriesSet" />
+      <End Role="Articles" EntitySet="ArticlesSet" />
+    </AssociationSet>
+    <AssociationSet Name="FournisseursCommandes" Association="ModelStock.FournisseursCommandes">
+      <End Role="Fournisseurs" EntitySet="FournisseursSet" />
+      <End Role="Commandes" EntitySet="CommandesSet" />
+    </AssociationSet>
+    <AssociationSet Name="ArticlesCommandes" Association="ModelStock.ArticlesCommandes">
+      <End Role="Articles" EntitySet="ArticlesSet" />
+      <End Role="Commandes" EntitySet="CommandesSet" />
+    </AssociationSet>
+    <AssociationSet Name="CatégoriesFournisseurs" Association="ModelStock.CatégoriesFournisseurs">
+      <End Role="Catégories" EntitySet="CatégoriesSet" />
+      <End Role="Fournisseurs" EntitySet="FournisseursSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Articles">
+    <Key>
+      <PropertyRef Name="IdArticles" />
+    </Key>
+    <Property Name="IdArticles" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Référence" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Catégories" Relationship="ModelStock.CatégoriesArticles" FromRole="Articles" ToRole="Catégories" />
+    <NavigationProperty Name="Commandes" Relationship="ModelStock.ArticlesCommandes" FromRole="Articles" ToRole="Commandes" />
+    <Property Name="Couleur" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Catégories">
+    <Key>
+      <PropertyRef Name="IdCatégories" />
+    </Key>
+    <Property Name="IdCatégories" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type_Catégorie" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Sous_Catégories" Relationship="ModelStock.CatégoriesSous_Catégories" FromRole="Catégories" ToRole="Sous_Catégories" />
+    <NavigationProperty Name="Articles" Relationship="ModelStock.CatégoriesArticles" FromRole="Catégories" ToRole="Articles" />
+    <NavigationProperty Name="Fournisseurs" Relationship="ModelStock.CatégoriesFournisseurs" FromRole="Catégories" ToRole="Fournisseurs" />
+  </EntityType>
+  <EntityType Name="Sous_Catégories">
+    <Key>
+      <PropertyRef Name="IdSous_Catégories" />
+    </Key>
+    <Property Name="IdSous_Catégories" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type_Sous_Catégorie" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Catégories" Relationship="ModelStock.CatégoriesSous_Catégories" FromRole="Sous_Catégories" ToRole="Catégories" />
+  </EntityType>
+  <EntityType Name="Commandes">
+    <Key>
+      <PropertyRef Name="IdCommande" />
+    </Key>
+    <Property Name="IdCommande" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date_Lancement" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Date_PrévuDeLivraison" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Quantité_Commandée" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Fournisseurs" Relationship="ModelStock.FournisseursCommandes" FromRole="Commandes" ToRole="Fournisseurs" />
+    <NavigationProperty Name="Articles" Relationship="ModelStock.ArticlesCommandes" FromRole="Commandes" ToRole="Articles" />
+  </EntityType>
+  <EntityType Name="Fournisseurs">
+    <Key>
+      <PropertyRef Name="IdFournisseurs" />
+    </Key>
+    <Property Name="IdFournisseurs" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nom" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Adresse" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Tél_Pérsonnel" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Tél_Travail" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Tél_fixe" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Commandes" Relationship="ModelStock.FournisseursCommandes" FromRole="Fournisseurs" ToRole="Commandes" />
+    <NavigationProperty Name="Catégories" Relationship="ModelStock.CatégoriesFournisseurs" FromRole="Fournisseurs" ToRole="Catégories" />
+  </EntityType>
+  <Association Name="CatégoriesSous_Catégories">
+    <End Type="ModelStock.Catégories" Role="Catégories" Multiplicity="1" />
+    <End Type="ModelStock.Sous_Catégories" Role="Sous_Catégories" Multiplicity="*" />
+  </Association>
+  <Association Name="CatégoriesArticles">
+    <End Type="ModelStock.Catégories" Role="Catégories" Multiplicity="1" />
+    <End Type="ModelStock.Articles" Role="Articles" Multiplicity="*" />
+  </Association>
+  <Association Name="FournisseursCommandes">
+    <End Type="ModelStock.Fournisseurs" Role="Fournisseurs" Multiplicity="1" />
+    <End Type="ModelStock.Commandes" Role="Commandes" Multiplicity="*" />
+  </Association>
+  <Association Name="ArticlesCommandes">
+    <End Type="ModelStock.Articles" Role="Articles" Multiplicity="*" />
+    <End Type="ModelStock.Commandes" Role="Commandes" Multiplicity="1" />
+  </Association>
+  <Association Name="CatégoriesFournisseurs">
+    <End Type="ModelStock.Catégories" Role="Catégories" Multiplicity="1" />
+    <End Type="ModelStock.Fournisseurs" Role="Fournisseurs" Multiplicity="*" />
+  </Association>
+</Schema>
